@@ -1,5 +1,6 @@
 package machine;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CoffeeMachine {
@@ -62,51 +63,80 @@ public class CoffeeMachine {
         coffeeBeansAmountInCups = coffeeBeansAmount / coffeeBeansPerCup;
     }
     private void displayCoffeeMachineSupplies(){
-        System.out.println("The coffee machine has:");
+        System.out.println("\nThe coffee machine has:");
         System.out.println(waterAmount + " ml of water");
         System.out.println(milkAmount + " ml of milk");
         System.out.println(coffeeBeansAmount + " g of coffee beans");
         System.out.println(cupsNumber + " disposable cups");
-        System.out.println("$" + moneyAmount + " of money");
+        System.out.println("$" + moneyAmount + " of money\n");
     }
 
     private void takeMoney(){
-        System.out.println("I gave you $" + moneyAmount);
+        System.out.println("I gave you $" + moneyAmount + "\n");
         moneyAmount = 0;
     }
     private void fillSupplies(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Write how many ml of water you want to add: ");
-        waterAmount += scanner.nextInt();
+        waterAmount += Integer.parseInt(scanner.nextLine());
         System.out.println("Write how many ml of milk you want to add:");
-        milkAmount += scanner.nextInt();
+        milkAmount += Integer.parseInt(scanner.nextLine());
         System.out.println("Write how many grams of coffee beans you want to add:");
-        coffeeBeansAmount += scanner.nextInt();
+        coffeeBeansAmount += Integer.parseInt(scanner.nextLine());
         System.out.println("Write how many disposable cups you want to add:");
-        cupsNumber += scanner.nextInt();
+        cupsNumber += Integer.parseInt(scanner.nextLine());
+        System.out.println();
     }
-
     private void buyCoffee(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
-        int option = scanner.nextInt();
-        switch (option){
+        System.out.println("\nWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:");
+        String scannedOption = scanner.nextLine();
+        if (Objects.equals(scannedOption, "back")){
+            return;
+        }
+        int option = Integer.parseInt(scannedOption);
+        switch (option) {
             case 1:
-                waterAmount -= 250;
-                coffeeBeansAmount -= 16;
-                moneyAmount += 4;
+                if (waterAmount < 250) {
+                    System.out.println("Sorry, not enough water!\n");
+                } else if (coffeeBeansAmount < 16) {
+                    System.out.println("Sorry, not enough coffee beans!\n");
+                } else {
+                    System.out.println("I have enough resources, making you a coffee!\n");
+                    waterAmount -= 250;
+                    coffeeBeansAmount -= 16;
+                    moneyAmount += 4;
+                }
                 break;
             case 2:
-                waterAmount -= 350;
-                milkAmount -= 75;
-                coffeeBeansAmount -= 20;
-                moneyAmount += 7;
+                if (waterAmount < 350) {
+                    System.out.println("Sorry, not enough water!\n");
+                } else if (milkAmount < 75) {
+                    System.out.println("Sorry, not enough milk!\n");
+                } else if (coffeeBeansAmount < 20) {
+                    System.out.println("Sorry, not enough coffee beans!\n");
+                } else {
+                    System.out.println("I have enough resources, making you a coffee!\n");
+                    waterAmount -= 350;
+                    milkAmount -= 75;
+                    coffeeBeansAmount -= 20;
+                    moneyAmount += 7;
+                }
                 break;
             case 3:
-                waterAmount -= 200;
-                milkAmount -= 100;
-                coffeeBeansAmount -= 12;
-                moneyAmount += 6;
+                if (waterAmount < 200) {
+                    System.out.println("Sorry, not enough water!\n");
+                } else if (milkAmount < 100) {
+                    System.out.println("Sorry, not enough milk!\n");
+                } else if (coffeeBeansAmount < 12) {
+                    System.out.println("Sorry, not enough coffee beans!\n");
+                } else {
+                    System.out.println("I have enough resources, making you a coffee!\n");
+                    waterAmount -= 200;
+                    milkAmount -= 100;
+                    coffeeBeansAmount -= 12;
+                    moneyAmount += 6;
+                }
                 break;
         }
         cupsNumber--;
@@ -115,23 +145,28 @@ public class CoffeeMachine {
         Scanner scanner = new Scanner(System.in);
         CoffeeMachine CM = new CoffeeMachine();
         CM.setCoffeeMachineSupplies(400, 540, 120, 9, 550);
-        CM.displayCoffeeMachineSupplies();
-        System.out.println("Write action (buy, fill, take):");
-        String option = scanner.nextLine();
-        switch (option){
-            case "take":
-                CM.takeMoney();
-                break;
-            case "fill":
-                CM.fillSupplies();
-                break;
-            case"buy":
-                CM.buyCoffee();
-                break;
+        boolean runMachine = true;
+        while(runMachine) {
+            System.out.println("Write action (buy, fill, take, remaining, exit):");
+            String option = scanner.nextLine();
+            switch (option) {
+                case "take":
+                    CM.takeMoney();
+                    break;
+                case "fill":
+                    CM.fillSupplies();
+                    break;
+                case "buy":
+                    CM.buyCoffee();
+                    break;
+                case "exit":
+                    runMachine = false;
+                    break;
+                case "remaining":
+                    CM.displayCoffeeMachineSupplies();
+                    break;
+            }
         }
-        CM.displayCoffeeMachineSupplies();
-
-//        CM.evaluateNumberOfServings(coffeeDrinks);
-
+        System.exit(0);
     }
 }
