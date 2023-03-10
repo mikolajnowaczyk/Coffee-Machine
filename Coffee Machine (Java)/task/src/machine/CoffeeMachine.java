@@ -77,7 +77,7 @@ public class CoffeeMachine {
     }
     private void fillSupplies(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Write how many ml of water you want to add: ");
+        System.out.println("\nWrite how many ml of water you want to add: ");
         waterAmount += Integer.parseInt(scanner.nextLine());
         System.out.println("Write how many ml of milk you want to add:");
         milkAmount += Integer.parseInt(scanner.nextLine());
@@ -106,6 +106,7 @@ public class CoffeeMachine {
                     waterAmount -= 250;
                     coffeeBeansAmount -= 16;
                     moneyAmount += 4;
+                    cupsNumber--;
                 }
                 break;
             case 2:
@@ -121,6 +122,7 @@ public class CoffeeMachine {
                     milkAmount -= 75;
                     coffeeBeansAmount -= 20;
                     moneyAmount += 7;
+                    cupsNumber--;
                 }
                 break;
             case 3:
@@ -136,17 +138,21 @@ public class CoffeeMachine {
                     milkAmount -= 100;
                     coffeeBeansAmount -= 12;
                     moneyAmount += 6;
+                    cupsNumber--;
                 }
                 break;
         }
-        cupsNumber--;
     }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         CoffeeMachine CM = new CoffeeMachine();
         CM.setCoffeeMachineSupplies(400, 540, 120, 9, 550);
         boolean runMachine = true;
-        while(runMachine) {
+        do {
+//            int i  = 0;
+//            while(i < 1000){
+//                System.out.println(scanner.next());
+//            }
             System.out.println("Write action (buy, fill, take, remaining, exit):");
             String option = scanner.nextLine();
             switch (option) {
@@ -166,7 +172,7 @@ public class CoffeeMachine {
                     CM.displayCoffeeMachineSupplies();
                     break;
             }
-        }
+        }while(runMachine);
         System.exit(0);
     }
 }
